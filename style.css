@@ -1,0 +1,25 @@
+body {
+    display: flex;
+    background-color: #C0FFEE;
+    font-family: cursive;
+    flex-direction: column;
+    align-items: center;
+}
+
+div.main {    
+    display: flex;
+    background: cornflowerblue;
+    width: 40%;
+    min-width: 300px;
+    height: 500px;
+    padding: 50px;
+    margin: 50px;
+    align-self: center;
+    justify-self: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+button {
+    margin: 10px;
+}
