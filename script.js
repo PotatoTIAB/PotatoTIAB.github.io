@@ -1,3 +1,6 @@
+// ****************************************
+// *              Constants                *
+// ****************************************
 const system = {
     point: 0,
     upgradeCost: 10,
@@ -6,6 +9,7 @@ const system = {
         [10, unlockUpgrade]
     ]
 };
+
 const mainButton = document.querySelector("#mainButton");
 const upgradeButton = document.querySelector("#upgradeButton");
 const counter = document.querySelector("#counter");
@@ -13,6 +17,8 @@ const counterFormat = counter.innerHTML;
 const upgradeButtonFormat = upgradeButton.innerHTML;
 let filterSwitch = false;
 let ev = null;
+
+
 
 Object.defineProperty(system, "Point", {
     get: function() {
@@ -48,16 +54,17 @@ system.UpgradeCost = system.UpgradeCost;
 
 function click(e) {
     if (e.pointerType) {
-        system.Point++;
+        system.Point += (1 + system.upgrade);
     }
     else {
-        alert("i said click me, dumbass.")
+        alert("i said click me, dumbass.");
     }
 }
 
 let costed = 0;
 function upgrade(e) {
-    if (e.pointerType) {
+    if (e.pointerType && system.Point >= system.UpgradeCost) {
+        system.Point -= system.UpgradeCost;
         system.upgrade++;
         costed += system.UpgradeCost;
         system.UpgradeCost = Math.round(10 * (1.5 ** system.upgrade));
