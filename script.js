@@ -149,6 +149,7 @@ function setCookie(cookie, value, exp="1e12") {
 
 function save() {
     localStorage.setItem("save", JSON.stringify(system));
+    console.log("saved");
 }
 
 function checkSave() {
@@ -183,6 +184,8 @@ function beforeunload(e) {
         save();
     // }
 }
+
+setInterval(save, 10000);
 
     
 mainButton.addEventListener("click", click);
