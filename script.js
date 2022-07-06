@@ -151,6 +151,19 @@ function save() {
     localStorage.setItem("save", JSON.stringify(system));
 }
 
+function checkSave() {
+    if (localStorage.getItem("save")) {
+        return true;
+    }
+    return false;
+}
+
+function onLoad(e) {
+    if (checkSave()) {
+        load();
+    }
+}
+
 function load() {
     system = JSON.parse(localStorage.getItem("save"));
     defineSystem();
