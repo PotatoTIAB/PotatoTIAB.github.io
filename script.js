@@ -1,7 +1,7 @@
 // ****************************************
 // *              Constants                *
 // ****************************************
-const system = {
+var system = {
     point: 0,
     upgradeCost: 10,
     upgrade: 0,
@@ -40,7 +40,6 @@ Object.defineProperty(system, "Point", {
         }
     }
 })
-system.Point = system.Point;
 
 Object.defineProperty(system, "UpgradeCost", {
     get: function() {
@@ -51,7 +50,6 @@ Object.defineProperty(system, "UpgradeCost", {
         upgradeButton.innerHTML = upgradeButtonFormat.replace("{cost}", String(expo(this.upgradeCost)));
     }
 })
-system.UpgradeCost = system.UpgradeCost;
 
 Object.defineProperty(system, "Upgrade", {
     get: function() {
@@ -62,7 +60,14 @@ Object.defineProperty(system, "Upgrade", {
         mainButton.innerHTML = mainButtonFormat.replace("{up}", String(this.upgrade + 1));
     }
 })
-system.Upgrade = system.Upgrade;
+update();
+
+function update() {
+    system.Point = system.Point;
+    system.UpgradeCost = system.UpgradeCost;
+    system.Upgrade = system.Upgrade;
+}
+
 
 function isValid(e) {
     return (e.pointerType || e.mozInputSource == 1);
@@ -132,11 +137,20 @@ function setCookie(cookie, value, exp="1e12") {
     document.cookie = `${cookie}=${value};max-age=${exp * 1000};path=/`;
 }
 
-function save(e) {
-    if (e.pointerType) {
-        document.cookie
+function save() {
+    localStorage.setItem("save", JSON.stringify(system));
+}
+
+function load() {
+    system = localStorage.getItem("save");
+}
+
+function saveEvent(e) {
+    if (isValid(e)) {
+        save()
     }
 }
+
     
 mainButton.addEventListener("click", click);
 upgradeButton.addEventListener("click", upgrade)
