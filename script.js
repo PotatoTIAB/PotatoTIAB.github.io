@@ -179,4 +179,5 @@ function saveEvent(e) {
 
     
 mainButton.addEventListener("click", click);
-upgradeButton.addEventListener("click", upgrade)
+upgradeButton.addEventListener("click", upgrade);
+saveButton.addEventListener("click", saveEvent);
