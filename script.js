@@ -6,9 +6,14 @@ var system = {
     upgradeCost: 10,
     upgrade: 0,
     milestone: [
-        [10, unlockUpgrade]
-    ]
+        [10, "unlockUpgrade"]
+    ],
+    unlockedMilestones: []
 };
+
+const milestones = {
+    "unlockUpgrade": () => {upgradeButton.hidden = false;}
+}
 
 const mainButton = document.querySelector("#mainButton");
 const upgradeButton = document.querySelector("#upgradeButton");
@@ -21,52 +26,61 @@ let filterSwitch = false;
 let ev = null;
 
 
-
-Object.defineProperty(system, "Point", {
-    get: function() {
-        return this.point;
-    },
-    set: function(val) {
-        this.point = val;
-        counter.innerHTML = counterFormat.replace("{i}", String(expo(this.point)));
-        while (true) {
-            if (this.milestone.length > 0) {
-                if (this.milestone[0][0] <= this.point) {
-                    this.milestone.shift()[1]();
-                    continue;
-                }
-            }
-            break;
-        }
-    }
-})
-
-Object.defineProperty(system, "UpgradeCost", {
-    get: function() {
-        return this.upgradeCost;
-    },
-    set: function(val) {
-        this.upgradeCost = val;
-        upgradeButton.innerHTML = upgradeButtonFormat.replace("{cost}", String(expo(this.upgradeCost)));
-    }
-})
-
-Object.defineProperty(system, "Upgrade", {
-    get: function() {
-        return this.upgrade;
-    },
-    set: function(val) {
-        this.upgrade = val;
-        mainButton.innerHTML = mainButtonFormat.replace("{up}", String(this.upgrade + 1));
-    }
-})
-update();
-
-function update() {
+function updateSystem() {
     system.Point = system.Point;
     system.UpgradeCost = system.UpgradeCost;
     system.Upgrade = system.Upgrade;
 }
+
+function loadMilestones() {
+    system.unlockedMilestones.forEach(milestone => { milestones[milestone](); });
+}
+
+function defineSystem() {
+    Object.defineProperty(system, "Point", {
+        get: function() {
+            return this.point;
+        },
+        set: function(val) {
+            this.point = val;
+            counter.innerHTML = counterFormat.replace("{i}", String(expo(this.point)));
+            while (true) {
+                if (this.milestone.length > 0) {
+                    if (this.milestone[0][0] <= this.point) {
+                        unlockedMilestone = this.milestone.shift()[1];
+                        system.unlockedMilestones.push(unlockedMilestone);
+                        milestones[unlockedMilestone]();
+                        continue;
+                    }
+                }
+                break;
+            }
+        }
+    })
+    
+    Object.defineProperty(system, "UpgradeCost", {
+        get: function() {
+            return this.upgradeCost;
+        },
+        set: function(val) {
+            this.upgradeCost = val;
+            upgradeButton.innerHTML = upgradeButtonFormat.replace("{cost}", String(expo(this.upgradeCost)));
+        }
+    })
+    
+    Object.defineProperty(system, "Upgrade", {
+        get: function() {
+            return this.upgrade;
+        },
+        set: function(val) {
+            this.upgrade = val;
+            mainButton.innerHTML = mainButtonFormat.replace("{up}", String(this.upgrade + 1));
+        }
+    })
+}
+
+defineSystem();
+updateSystem();
 
 
 function isValid(e) {
@@ -108,10 +122,6 @@ function invert() {
     }
 }
 
-function unlockUpgrade() {
-    upgradeButton.hidden = false;
-}
-
 function expo(number) {
     if (number >= 1000) {
         return Number.parseFloat(number).toExponential(3);
@@ -142,7 +152,10 @@ function save() {
 }
 
 function load() {
-    system = localStorage.getItem("save");
+    system = JSON.parse(localStorage.getItem("save"));
+    defineSystem();
+    updateSystem();
+    loadMilestones();
 }
 
 function saveEvent(e) {
