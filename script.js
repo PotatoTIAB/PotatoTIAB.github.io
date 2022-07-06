@@ -13,6 +13,7 @@ const system = {
 const mainButton = document.querySelector("#mainButton");
 const upgradeButton = document.querySelector("#upgradeButton");
 const counter = document.querySelector("#counter");
+const saveButton = document.querySelector("#save");
 const counterFormat = counter.innerHTML;
 const mainButtonFormat = mainButton.innerHTML;
 const upgradeButtonFormat = upgradeButton.innerHTML;
@@ -104,6 +105,28 @@ function expo(number) {
     }
     else {
         return number;
+    }
+}
+
+function getCookie(cookie) {
+    res = "";
+    document.cookie.split(';').forEach(arr => {
+        [item, value] = arr.split('=');
+        if (item == cookie) {
+            res = value;
+            return;
+        }
+    });
+    return res;
+}
+
+function setCookie(cookie, value, exp="1e12") {
+    document.cookie = `${cookie}=${value};max-age=${exp * 1000};path=/`;
+}
+
+function save(e) {
+    if (e.pointerType) {
+        document.cookie
     }
 }
     
