@@ -177,7 +177,15 @@ function saveEvent(e) {
     }
 }
 
+function beforeunload(e) {
+    // e.preventDefault();
+    // if (window.confirm("want to save before you go?\n(press \"OK\" to save)")) {
+        save();
+    // }
+}
+
     
 mainButton.addEventListener("click", click);
 upgradeButton.addEventListener("click", upgrade);
 saveButton.addEventListener("click", saveEvent);
+addEventListener("beforeunload", beforeunload);
