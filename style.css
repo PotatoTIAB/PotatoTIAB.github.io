@@ -23,3 +23,8 @@ div.main {
 button {
     margin: 10px;
 }
+
+button.save {
+    align-self: flex-end;
+    justify-self: flex-start;
+}
