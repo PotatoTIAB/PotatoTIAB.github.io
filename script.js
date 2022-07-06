@@ -14,6 +14,7 @@ const mainButton = document.querySelector("#mainButton");
 const upgradeButton = document.querySelector("#upgradeButton");
 const counter = document.querySelector("#counter");
 const counterFormat = counter.innerHTML;
+const mainButtonFormat = mainButton.innerHTML;
 const upgradeButtonFormat = upgradeButton.innerHTML;
 let filterSwitch = false;
 let ev = null;
@@ -51,10 +52,20 @@ Object.defineProperty(system, "UpgradeCost", {
 })
 system.UpgradeCost = system.UpgradeCost;
 
+Object.defineProperty(system, "Upgrade", {
+    get: function() {
+        return this.upgrade;
+    },
+    set: function(val) {
+        this.upgrade = val;
+        mainButton.innerHTML = mainButtonFormat.replace("{up}", String(this.upgrade + 1));
+    }
+})
+system.Upgrade = system.Upgrade;
 
 function click(e) {
     if (e.pointerType) {
-        system.Point += (1 + system.upgrade);
+        system.Point += (1 + system.Upgrade);
     }
     else {
         alert("i said click me, dumbass.");
@@ -65,10 +76,10 @@ let costed = 0;
 function upgrade(e) {
     if (e.pointerType && system.Point >= system.UpgradeCost) {
         system.Point -= system.UpgradeCost;
-        system.upgrade++;
+        system.Upgrade++;
         costed += system.UpgradeCost;
-        system.UpgradeCost = Math.round(10 * (1.5 ** system.upgrade));
-        console.log(`at:${system.upgrade}\nreal value:${costed}\nestimated:${Math.round(20 * (1.5 ** system.upgrade) - 20)}`);
+        system.UpgradeCost = Math.round(10 * (1.5 ** system.Upgrade));
+        console.log(`at:${system.Upgrade}\nreal value:${costed}\nestimated:${Math.round(20 * (1.5 ** system.Upgrade) - 20)}`);
     }
 }
 
