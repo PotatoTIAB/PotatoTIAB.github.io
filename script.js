@@ -185,10 +185,16 @@ function beforeunload(e) {
     // }
 }
 
+function deleteSave() {
+    removeEventListener("beforeunload", window);
+    localStorage.removeItem("save");
+    window.location.reload();
+}
+
 setInterval(save, 10000);
 
     
 mainButton.addEventListener("click", click);
 upgradeButton.addEventListener("click", upgrade);
 saveButton.addEventListener("click", saveEvent);
-addEventListener("beforeunload", beforeunload);
+window.addEventListener("beforeunload", beforeunload);
