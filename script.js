@@ -64,8 +64,12 @@ Object.defineProperty(system, "Upgrade", {
 })
 system.Upgrade = system.Upgrade;
 
+function isValid(e) {
+    return (e.pointerType || e.mozInputSource == 1);
+}
+
 function click(e) {
-    if (e.pointerType) {
+    if (isValid(e)) {
         system.Point += (1 + system.Upgrade);
     }
     else {
@@ -75,13 +79,17 @@ function click(e) {
 
 let costed = 0;
 function upgrade(e) {
-    if (e.pointerType && system.Point >= system.UpgradeCost) {
+    if (isValid(e) && system.Point >= system.UpgradeCost) {
         system.Point -= system.UpgradeCost;
         system.Upgrade++;
         costed += system.UpgradeCost;
-        system.UpgradeCost = Math.round(10 * (1.5 ** system.Upgrade));
+        system.UpgradeCost = upgradeCostCalc(system.Upgrade);
         console.log(`at:${system.Upgrade}\nreal value:${costed}\nestimated:${Math.round(20 * (1.5 ** system.Upgrade) - 20)}`);
     }
+}
+
+function upgradeCostCalc(to, from=to-1) {
+    return Math.round(20 * (1.5 ** to) - 20) - Math.round(20 * (1.5 ** from) - 20);
 }
 
 function invert() {
