@@ -118,6 +118,13 @@ function click(e) {
     }
 }
 
+function expFunc(base, mult, x) {
+    if (x == 1){
+        return base;
+    }
+    return mult * (base ** (x-1) - 1) / (x-1);
+}
+
 let costed = 0;
 function upgrade(e) {
     if (isValid(e) && system.Point >= system.UpgradeCost) {
