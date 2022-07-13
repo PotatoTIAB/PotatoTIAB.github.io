@@ -3,7 +3,6 @@
 // ****************************************
 var system = {
     point: 0,
-    upgradeCost: 10,
     upgrade: 0,
     milestone: [
         [10, "unlockUpgrade"]
@@ -60,12 +59,7 @@ function defineSystem() {
     
     Object.defineProperty(system, "UpgradeCost", {
         get: function() {
-            return this.upgradeCost;
-        },
-        set: function(val) {
-            this.upgradeCost = val;
-            upgradeButton.innerHTML = upgradeButtonFormat.replace("{cost}", String(expo(this.upgradeCost))).replace("{i}", String(this.upgrade));
-            mainButton.innerHTML = mainButtonFormat.replace("{up}", String(this.PointInc));
+            return upgradeCostCalc(this.upgrade + 1);
         }
     })
     
@@ -75,7 +69,7 @@ function defineSystem() {
         },
         set: function(val) {
             this.upgrade = val;
-            upgradeButton.innerHTML = upgradeButtonFormat.replace("{cost}", String(expo(this.upgradeCost))).replace("{i}", String(this.upgrade));
+            upgradeButton.innerHTML = upgradeButtonFormat.replace("{cost}", String(expo(this.UpgradeCost))).replace("{i}", String(this.upgrade));
         }
     })
 
@@ -88,7 +82,28 @@ function defineSystem() {
 
 defineSystem();
 updateSystem();
+updateButtons(mainButton, upgradeButton);
 
+function updateButtons(buttons) {
+    if (~(buttons instanceof Array)) {
+        buttons = [buttons]
+    }
+    buttons.forEach(button => {
+        switch (button) {
+            case mainButton:
+                mainButton.innerHTML = mainButtonFormat.replace("{up}", String(system.PointInc));
+                break;
+            
+            case upgradeButton:
+                upgradeButton.innerHTML = upgradeButtonFormat.replace("{cost}", String(expo(system.UpgradeCost))).replace("{i}", String(system.upgrade));
+                break;
+    
+            default:
+                console.error(`invalid button: ${button}`);
+                break;
+        }
+    });
+}
 
 function isValid(e) {
     return (e.pointerType || e.mozInputSource == 1);
@@ -109,8 +124,8 @@ function upgrade(e) {
         system.Point -= system.UpgradeCost;
         system.Upgrade++;
         costed += system.UpgradeCost;
-        system.UpgradeCost = upgradeCostCalc(system.Upgrade + 1);
         console.log(`at:${system.Upgrade}\nreal value:${costed}\nestimated:${Math.round(20 * (1.5 ** system.Upgrade) - 20)}`);
+        updateButtons(mainButton, upgradeButton);
     }
 }
 
@@ -178,6 +193,7 @@ function load() {
     defineSystem();
     updateSystem();
     loadMilestones();
+    updateButtons(mainButton, upgradeButton);
 }
 
 function saveEvent(e) {
