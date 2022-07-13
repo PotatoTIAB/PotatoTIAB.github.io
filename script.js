@@ -64,7 +64,8 @@ function defineSystem() {
         },
         set: function(val) {
             this.upgradeCost = val;
-            upgradeButton.innerHTML = upgradeButtonFormat.replace("{cost}", String(expo(this.upgradeCost)));
+            upgradeButton.innerHTML = upgradeButtonFormat.replace("{cost}", String(expo(this.upgradeCost))).replace("{i}", String(this.upgrade));
+            mainButton.innerHTML = mainButtonFormat.replace("{up}", String(this.PointInc));
         }
     })
     
@@ -74,7 +75,13 @@ function defineSystem() {
         },
         set: function(val) {
             this.upgrade = val;
-            mainButton.innerHTML = mainButtonFormat.replace("{up}", String(this.upgrade + 1));
+            upgradeButton.innerHTML = upgradeButtonFormat.replace("{cost}", String(expo(this.upgradeCost))).replace("{i}", String(this.upgrade));
+        }
+    })
+
+    Object.defineProperty(system, "PointInc", {
+        get: function() {
+            return (1 + this.upgrade)
         }
     })
 }
@@ -89,7 +96,7 @@ function isValid(e) {
 
 function click(e) {
     if (isValid(e)) {
-        system.Point += (1 + system.Upgrade);
+        system.Point += system.PointInc;
     }
     else {
         alert("i said click me, dumbass.");
@@ -102,12 +109,13 @@ function upgrade(e) {
         system.Point -= system.UpgradeCost;
         system.Upgrade++;
         costed += system.UpgradeCost;
-        system.UpgradeCost = upgradeCostCalc(system.Upgrade);
+        system.UpgradeCost = upgradeCostCalc(system.Upgrade + 1);
         console.log(`at:${system.Upgrade}\nreal value:${costed}\nestimated:${Math.round(20 * (1.5 ** system.Upgrade) - 20)}`);
     }
 }
 
 function upgradeCostCalc(to, from=to-1) {
+    console.log(`${Math.round(20 * (1.5 ** to) - 20)} - ${Math.round(20 * (1.5 ** from) - 20)}`);
     return Math.round(20 * (1.5 ** to) - 20) - Math.round(20 * (1.5 ** from) - 20);
 }
 
