@@ -122,8 +122,8 @@ let costed = 0;
 function upgrade(e) {
     if (isValid(e) && system.Point >= system.UpgradeCost) {
         system.Point -= system.UpgradeCost;
-        system.Upgrade++;
         costed += system.UpgradeCost;
+        system.Upgrade++;
         console.log(`at:${system.Upgrade}\nreal value:${costed}\nestimated:${Math.round(20 * (1.5 ** system.Upgrade) - 20)}`);
         updateButtons(mainButton, upgradeButton);
     }
