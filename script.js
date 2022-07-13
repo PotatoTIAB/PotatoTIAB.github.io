@@ -119,10 +119,7 @@ function click(e) {
 }
 
 function expFunc(base, mult, x) {
-    if (x == 1){
-        return base;
-    }
-    return mult * (base ** (x-1) - 1) / (x-1);
+    return (mult * ((base ** (x-1)) - 1)) / (base-1);
 }
 
 let costed = 0;
