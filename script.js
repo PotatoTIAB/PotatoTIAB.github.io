@@ -11,7 +11,8 @@ var system = {
     milestone: [
         [10, "unlockUpgrade"]
     ],
-    unlockedMilestones: []
+    unlockedMilestones: [],
+    version: "1.0"
 };
 
 const milestones = {
@@ -199,8 +200,24 @@ function onLoad(e) {
     }
 }
 
+function versionControl(save) {
+    if (save.version == null) {
+        console.log("old version detected");
+        save.version = "1.0";
+    }
+    switch (save.version) {
+        case "1.0":
+            break;
+    
+        default:
+            console.error(`UNKNOWN VERSON: ${save.version}`)
+            break;
+    }
+}
+
 function load() {
     system = JSON.parse(localStorage.getItem("save"));
+    versionControl(system);
     defineSystem();
     updateSystem();
     loadMilestones();
