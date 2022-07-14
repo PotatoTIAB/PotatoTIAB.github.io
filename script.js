@@ -3,7 +3,11 @@
 // ****************************************
 var system = {
     point: 0,
-    upgrade: 0,
+    upgrade: {
+        amount: 0,
+        expBase: 1.5,
+        baseCost: 10
+    },
     milestone: [
         [10, "unlockUpgrade"]
     ],
@@ -59,23 +63,23 @@ function defineSystem() {
     
     Object.defineProperty(system, "UpgradeCost", {
         get: function() {
-            return upgradeCostCalc(this.upgrade + 1);
+            return upgradeCostCalc(this.upgrade.amount + 1);
         }
     })
     
     Object.defineProperty(system, "Upgrade", {
         get: function() {
-            return this.upgrade;
+            return this.upgrade.amount;
         },
         set: function(val) {
-            this.upgrade = val;
-            upgradeButton.innerHTML = upgradeButtonFormat.replace("{cost}", String(expo(this.UpgradeCost))).replace("{i}", String(this.upgrade));
+            this.upgrade.amount = val;
+            upgradeButton.innerHTML = upgradeButtonFormat.replace("{cost}", String(expo(this.UpgradeCost))).replace("{i}", String(this.upgrade.amount));
         }
     })
 
     Object.defineProperty(system, "PointInc", {
         get: function() {
-            return (1 + this.upgrade)
+            return (1 + this.upgrade.amount)
         }
     })
 }
@@ -95,7 +99,7 @@ function updateButtons(buttons) {
                 break;
             
             case upgradeButton:
-                upgradeButton.innerHTML = upgradeButtonFormat.replace("{cost}", String(expo(system.UpgradeCost))).replace("{i}", String(system.upgrade));
+                upgradeButton.innerHTML = upgradeButtonFormat.replace("{cost}", String(expo(system.UpgradeCost))).replace("{i}", String(system.upgrade.amount));
                 break;
     
             default:
