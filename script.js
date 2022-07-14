@@ -18,10 +18,10 @@ const milestones = {
     "unlockUpgrade": () => {upgradeButton.hidden = false;}
 }
 
-const mainButton = document.querySelector("#mainButton");
-const upgradeButton = document.querySelector("#upgradeButton");
-const counter = document.querySelector("#counter");
-const saveButton = document.querySelector("#save");
+const mainButton = document.querySelector(".mainButton");
+const upgradeButton = document.querySelector(".upgradeButton");
+const counter = document.querySelector(".counter");
+const saveButton = document.querySelector(".save");
 const counterFormat = counter.innerHTML;
 const mainButtonFormat = mainButton.innerHTML;
 const upgradeButtonFormat = upgradeButton.innerHTML;
