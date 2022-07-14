@@ -9,13 +9,15 @@ var system = {
         baseCost: 10
     },
     milestone: [
-        [10, "unlockUpgrade"]
+        [10, "unlockUpgrade"],
+        [100, "unlockAccumulator"]
     ],
     unlockedMilestones: []
 };
 
 const milestones = {
-    "unlockUpgrade": () => {upgradeButton.hidden = false;}
+    "unlockUpgrade": () => {upgradeButton.hidden = false;},
+    "unlockAccumulator": null
 }
 
 const mainButton = document.querySelector("#mainButton");
