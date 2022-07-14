@@ -118,12 +118,16 @@ function click(e) {
     }
 }
 
+function expFunc(base, mult, x) {
+    return (mult * ((base ** (x)) - 1)) / (base-1);
+}
+
 let costed = 0;
 function upgrade(e) {
     if (isValid(e) && system.Point >= system.UpgradeCost) {
         system.Point -= system.UpgradeCost;
-        system.Upgrade++;
         costed += system.UpgradeCost;
+        system.Upgrade++;
         console.log(`at:${system.Upgrade}\nreal value:${costed}\nestimated:${Math.round(20 * (1.5 ** system.Upgrade) - 20)}`);
         updateButtons(mainButton, upgradeButton);
     }
@@ -131,7 +135,8 @@ function upgrade(e) {
 
 function upgradeCostCalc(to, from=to-1) {
     console.log(`${Math.round(20 * (1.5 ** to) - 20)} - ${Math.round(20 * (1.5 ** from) - 20)}`);
-    return Math.round(20 * (1.5 ** to) - 20) - Math.round(20 * (1.5 ** from) - 20);
+    // return Math.round(20 * (1.5 ** to) - 20) - Math.round(20 * (1.5 ** from) - 20);
+    return Math.round(expFunc(1.5, 10, to) - expFunc(1.5, 10, from));
 }
 
 function invert() {
