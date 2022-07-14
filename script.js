@@ -127,7 +127,7 @@ function expFunc(base, mult, x) {
         return (mult * ((base ** (x)) - 1)) / (base-1);
     }
     else {
-        return mult;
+        return mult * x;
     }
 }
 
