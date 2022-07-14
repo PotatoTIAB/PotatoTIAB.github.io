@@ -119,7 +119,7 @@ function click(e) {
 }
 
 function expFunc(base, mult, x) {
-    return (mult * ((base ** (x-1)) - 1)) / (base-1);
+    return (mult * ((base ** (x)) - 1)) / (base-1);
 }
 
 let costed = 0;
@@ -135,7 +135,8 @@ function upgrade(e) {
 
 function upgradeCostCalc(to, from=to-1) {
     console.log(`${Math.round(20 * (1.5 ** to) - 20)} - ${Math.round(20 * (1.5 ** from) - 20)}`);
-    return Math.round(20 * (1.5 ** to) - 20) - Math.round(20 * (1.5 ** from) - 20);
+    // return Math.round(20 * (1.5 ** to) - 20) - Math.round(20 * (1.5 ** from) - 20);
+    return Math.round(expFunc(1.5, 10, to) - expFunc(1.5, 10, from));
 }
 
 function invert() {
