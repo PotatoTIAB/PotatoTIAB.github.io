@@ -137,7 +137,7 @@ function upgrade(e) {
 }
 
 function upgradeCostCalc(to, from=to-1) {
-    return Math.round(expFunc(1.5, 10, to) - expFunc(1.5, 10, from));
+    return Math.round(expFunc(system.upgrade.expBase, system.upgrade.baseCost, to) - expFunc(system.upgrade.expBase, system.upgrade.baseCost, from));
 }
 
 function invert() {
