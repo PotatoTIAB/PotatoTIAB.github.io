@@ -20,10 +20,10 @@ const milestones = {
     "unlockAccumulator": () => {accButtons[0].hidden = false;}
 }
 
-const mainButton = document.querySelector("#mainButton");
-const upgradeButton = document.querySelector("#upgradeButton");
-const counter = document.querySelector("#counter");
-const saveButton = document.querySelector("#save");
+const mainButton = document.querySelector(".mainButton");
+const upgradeButton = document.querySelector(".upgradeButton");
+const counter = document.querySelector(".counter");
+const saveButton = document.querySelector(".save");
 const accButtons = document.querySelectorAll(".accumulator");
 const counterFormat = counter.innerHTML;
 const mainButtonFormat = mainButton.innerHTML;
