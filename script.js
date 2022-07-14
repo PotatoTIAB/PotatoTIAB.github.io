@@ -128,14 +128,11 @@ function upgrade(e) {
         system.Point -= system.UpgradeCost;
         costed += system.UpgradeCost;
         system.Upgrade++;
-        console.log(`at:${system.Upgrade}\nreal value:${costed}\nestimated:${Math.round(20 * (1.5 ** system.Upgrade) - 20)}`);
         updateButtons(mainButton, upgradeButton);
     }
 }
 
 function upgradeCostCalc(to, from=to-1) {
-    console.log(`${Math.round(20 * (1.5 ** to) - 20)} - ${Math.round(20 * (1.5 ** from) - 20)}`);
-    // return Math.round(20 * (1.5 ** to) - 20) - Math.round(20 * (1.5 ** from) - 20);
     return Math.round(expFunc(1.5, 10, to) - expFunc(1.5, 10, from));
 }
 
